@@ -10,17 +10,14 @@ public class Calc {
 
         String[] bits = exp.split(" \\+ ");
 
-
-        int a = Integer.parseInt(bits[0]);
-        int b = Integer.parseInt(bits[1]);
-        int c = 0;
-
-        if (bits.length > 2) {
-            c = Integer.parseInt(bits[2]);
+        int a = 0;
+        String b;
+        for (int i = 0; i < bits.length; i++) {
+            b = bits[i];
+            a = Integer.parseInt(b);
+            a++;
         }
-
-        return a + b + c;
-
+        return a;
 //        throw new RuntimeException("해석불가 : 올바른 식이 필요해.");
     }
 }
