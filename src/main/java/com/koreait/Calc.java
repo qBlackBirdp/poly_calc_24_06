@@ -6,13 +6,12 @@ import java.util.List;
 public class Calc {
     public static int run(String exp) {
 
-        boolean needToMulti = exp.contains("*");
-        boolean needToSum = exp.contains("+");
+        boolean needToMulti = exp.contains(" * ");
+        boolean needToSum = exp.contains(" + ")||exp.contains(" - ");
         boolean needToCompound = needToSum && needToMulti;
-        boolean needToSub = exp.contains("-");
+
 
         int sum = 0;
-        int sub = 0;
         int mult = 1;
         int rs = 0;
 
@@ -48,15 +47,6 @@ public class Calc {
 
             return sum;
 
-        } else if (needToSub) {
-            exp = exp.replace("- ", "+ -");
-
-            String[] bits = exp.split(" \\+ ");
-
-            for (String bit : bits) {
-                sub += Integer.parseInt(bit);
-            }
-            return sub;
         } else if (needToMulti) {
             String[] bits = exp.split(" \\* ");
             for (String bit : bits) {
@@ -67,7 +57,7 @@ public class Calc {
             return mult;
         }
 
-        return sum + mult + sub;
+        return sum + mult;
 //        throw new RuntimeException("해석불가 : 올바른 식이 필요해.");
     }
 }
