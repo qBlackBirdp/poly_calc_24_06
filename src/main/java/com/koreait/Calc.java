@@ -5,18 +5,45 @@ import java.util.Arrays;
 public class Calc {
     public static int run(String exp) {
 
-        exp = exp.replace("- ", "+ -");
+        boolean needToMulti = exp.contains("*");
+        boolean needToSum = exp.contains("+");
+
+        int sum = 0;
+        int mult = 1;
+        if(needToSum) {
+            exp = exp.replace("- ", "+ -");
 
 
-        String[] bits = exp.split(" \\+ "); //이까지는 수업시간에 도저히 풀지 못하던 구간이였다.
+            String[] bits = exp.split(" \\+ ");
 
-        int rs = 0; //합을 저장할 변수 선언.
+            bits = exp.split(" \\+ ");
 
-        for (String bit : bits) { //bits 배열을 순회
-            rs += Integer.parseInt(bit); // 순회하면서 값들을 int로 전환 시키며 더함.
+
+
+            for (String bit : bits) {
+                sum += Integer.parseInt(bit);
+            }
+
+            return sum; // 리턴값 rs.
+
+        }else if(needToMulti){
+
+            String[] bits = exp.split(" \\* ");
+
+
+
+            for (String bit : bits) {
+
+                mult *= Integer.parseInt(bit);
+
+            }
+            return mult;
         }
-
-        return rs; // 리턴값 rs.
+        return sum + mult;
 //        throw new RuntimeException("해석불가 : 올바른 식이 필요해.");
     }
 }
+
+//int mult = Arrays.stream(bits).
+//        mapToInt(Integer::parseInt).
+//        reduce(1, (a, b) -> a * b);
