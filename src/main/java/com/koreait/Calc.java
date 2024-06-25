@@ -25,7 +25,7 @@ public class Calc {
             for (int i = 0; i < bits.length; i++) {
                 if (bits[i].indexOf(multi) != -1) {
                     System.out.println(bits[i]);
-                    rs = run(bits[i]);
+                    rs += run(bits[i]);
                 }
             }
             for (int i = 0; i < bits.length; i++) {
@@ -44,7 +44,7 @@ public class Calc {
                 sum += Integer.parseInt(bit);
             }
 
-            return sum; // 리턴값 rs.
+            return sum;
 
         } else if (needToSub) {
             exp = exp.replace("- ", "+ -");
@@ -64,9 +64,7 @@ public class Calc {
             }
             return mult;
         }
-        if (mult == 1) {
-            mult = 0;
-        }
+
         return sum + mult + sub;
 //        throw new RuntimeException("해석불가 : 올바른 식이 필요해.");
     }
