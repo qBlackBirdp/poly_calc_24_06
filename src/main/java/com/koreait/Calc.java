@@ -36,6 +36,8 @@ public class Calc {
             }
             return sum + rs;
         } else if (needToSum) {
+            exp = exp.replace("(", "");
+            exp = exp.replace(")", "");
             exp = exp.replace("- ", "+ -");
 
             String[] bits = exp.split(" \\+ ");
