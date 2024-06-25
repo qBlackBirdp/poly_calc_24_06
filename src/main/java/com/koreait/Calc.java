@@ -9,34 +9,33 @@ public class Calc {
         boolean needToMulti = exp.contains("*");
         boolean needToSum = exp.contains("+");
         boolean needToCompound = needToSum && needToMulti;
-//        boolean needToSub = exp.contains("-");
+        boolean needToSub = exp.contains("-");
 
         int sum = 0;
-//        int sub = 0;
+        int sub = 0;
         int mult = 1;
         int rs = 0;
 
-        if(needToCompound) {
+        if (needToCompound) {
             String[] bits = exp.split(" \\+ ");
 
             char multi = '*';
 
 
-            for(int i = 0; i < bits.length; i++) {
-                if(bits[i].indexOf(multi) != -1){
+            for (int i = 0; i < bits.length; i++) {
+                if (bits[i].indexOf(multi) != -1) {
                     System.out.println(bits[i]);
                     rs = run(bits[i]);
                 }
             }
-            for(int i = 0; i < bits.length; i++) {
-                if(bits[i].indexOf(multi) == -1){
+            for (int i = 0; i < bits.length; i++) {
+                if (bits[i].indexOf(multi) == -1) {
                     System.out.println(bits[i]);
                     sum += Integer.parseInt(bits[i]);
                 }
             }
             return sum + rs;
-        }
-        else if(needToSum) {
+        } else if (needToSum) {
             exp = exp.replace("- ", "+ -");
 
             String[] bits = exp.split(" \\+ ");
@@ -47,17 +46,16 @@ public class Calc {
 
             return sum; // 리턴값 rs.
 
-        }
-//        else if(needToSub) {
-//
-//            String[] bits = exp.split(" \\- ");
-//
-//            for (String bit : bits) {
-//                sub -= Integer.parseInt(bit);
-//            }
-//            return sub;
-//        }
-        else if(needToMulti){
+        } else if (needToSub) {
+            exp = exp.replace("- ", "+ -");
+
+            String[] bits = exp.split(" \\+ ");
+
+            for (String bit : bits) {
+                sub += Integer.parseInt(bit);
+            }
+            return sub;
+        } else if (needToMulti) {
             String[] bits = exp.split(" \\* ");
             for (String bit : bits) {
 
@@ -66,11 +64,10 @@ public class Calc {
             }
             return mult;
         }
-        return sum + mult;
+        if (mult == 1) {
+            mult = 0;
+        }
+        return sum + mult + sub;
 //        throw new RuntimeException("해석불가 : 올바른 식이 필요해.");
     }
 }
-
-//int mult = Arrays.stream(bits).
-//        mapToInt(Integer::parseInt).
-//        reduce(1, (a, b) -> a * b);
