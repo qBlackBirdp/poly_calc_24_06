@@ -14,10 +14,27 @@ public class Calc {
         int sum = 0;
 //        int sub = 0;
         int mult = 1;
+        int rs = 0;
+
         if(needToCompound) {
             String[] bits = exp.split(" \\+ ");
 
-            return Integer.parseInt(bits[0]) + run(bits[1]);
+            char multi = '*';
+
+
+            for(int i = 0; i < bits.length; i++) {
+                if(bits[i].indexOf(multi) != -1){
+                    System.out.println(bits[i]);
+                    rs = run(bits[i]);
+                }
+            }
+            for(int i = 0; i < bits.length; i++) {
+                if(bits[i].indexOf(multi) == -1){
+                    System.out.println(bits[i]);
+                    sum += Integer.parseInt(bits[i]);
+                }
+            }
+            return sum + rs;
         }
         else if(needToSum) {
             exp = exp.replace("- ", "+ -");
