@@ -68,7 +68,9 @@ public class Calc {
 
 
         if (needToCompound) {
+            exp = exp.replace("- ", "+ -");
             String[] bits = exp.split(" \\+ ");
+
 
             char sub = '-';
             for (int i = 0; i < bits.length; i++) {

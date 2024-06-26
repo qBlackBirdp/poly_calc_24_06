@@ -139,13 +139,13 @@ public class CalcTests {
     @Test
     @DisplayName("1 * 1 + ( 1 + (1 * (1 - 1))) == 2")
     void t24() {
-        assertThat(Calc.run("1 * 1 + ( 1 - (1 * 1 - (1 - 1)))")).isEqualTo(-1);
+        assertThat(Calc.run("1 * 1 + ( 1 - (1 * 1 - (1 - 1)))")).isEqualTo(1);
     }
 
-//    @Test
-//    @DisplayName("3 * 1 + (1 - (4 * 1 - (1 - 1))) == 0")
-//    void t50() {
-//        assertThat(Calc.run("3 * 1 + (1 - (4 * 1 - (1 - 1)))")).isEqualTo(0);
-//    }
+    @Test
+    @DisplayName("3 * 1 + (1 - (4 * 1 - (1 - 1))) == 0")
+    void t50() {
+        assertThat(Calc.run("3 * 1 + (1 - (4 * 1 - (1 - 1)))")).isEqualTo(0);
+    }
 //3 * 1 + (1 - (4 * 1 - (1 - 1)))
 }
