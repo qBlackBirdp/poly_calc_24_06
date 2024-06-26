@@ -10,9 +10,38 @@ public class Calc {
         if (!exp.contains(" ")) {
             return Integer.parseInt(exp);
         }
+
+//        if (exp.contains("(")) {
+//            int openBracket = exp.indexOf("(");
+//            int closeBracket = exp.indexOf(")");
+//            String expression = exp.substring(openBracket + 1, closeBracket);
+//            int expResult = run(expression);
+//            exp = exp.substring(0, openBracket) + expResult + exp.substring(closeBracket + 1);
+//            return run(exp);
+//        }
+
         boolean needToMulti = exp.contains(" * ");
-        boolean needToSum = exp.contains(" + ")||exp.contains(" - ");
+        boolean needToSum = exp.contains(" + ") || exp.contains(" - ");
+        boolean needToSplit = exp.contains("(") || exp.contains(")");
         boolean needToCompound = needToSum && needToMulti;
+
+        if (needToSplit) {
+            int brackersCount = 0;
+            int splitPointIndex = -1;
+
+            for (int i = 0; i < exp.length(); i++) {
+                if (exp.charAt(i) == '(') brackersCount++;
+                else if (exp.charAt(i) == ')') brackersCount--;
+                if (brackersCount == 0) {
+                    splitPointIndex = i;
+                    break;
+                }
+            }
+            String firstExp = exp.substring(0, splitPointIndex + 1);
+            String secondExp = exp.substring(splitPointIndex + 4);
+
+            return Calc.run(firstExp) + Calc.run(secondExp);
+        }
 
 
         int sum = 0;
@@ -29,13 +58,13 @@ public class Calc {
 
             for (int i = 0; i < bits.length; i++) {
                 if (bits[i].indexOf(multi) != -1) {
-                    System.out.println(bits[i]);
+
                     rs += run(bits[i]);
                 }
             }
             for (int i = 0; i < bits.length; i++) {
                 if (bits[i].indexOf(multi) == -1) {
-                    System.out.println(bits[i]);
+
                     sum += Integer.parseInt(bits[i]);
                 }
             }
@@ -67,11 +96,15 @@ public class Calc {
     }
 
     private static String stripOuterBrackets(String exp) {
-        for (int i = 0; i < exp.length(); i++) {
-            if (exp.charAt(0) == '(' && exp.charAt(exp.length() - 1) == ')') {
-                exp = exp.substring(1, exp.length() - 1);
-            }
+        int outerBracketsCount = 0;
+
+        while (exp.charAt(outerBracketsCount) == '(' && exp.charAt(exp.length() - 1 - outerBracketsCount) == ')') {
+            outerBracketsCount++;
         }
-        return exp;
+
+        if (outerBracketsCount == 0) return exp;
+
+        return exp.substring(outerBracketsCount, exp.length() - outerBracketsCount);
     }
+
 }
