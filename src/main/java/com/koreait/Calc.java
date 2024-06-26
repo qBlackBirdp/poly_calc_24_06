@@ -5,43 +5,58 @@ import java.util.List;
 
 public class Calc {
     public static int run(String exp) {
+        exp = exp.trim();
         exp = stripOuterBrackets(exp);
         // 단일항이 들어오면 바로 리턴
         if (!exp.contains(" ")) {
             return Integer.parseInt(exp);
         }
 
-//        if (exp.contains("(")) {
-//            int openBracket = exp.indexOf("(");
-//            int closeBracket = exp.indexOf(")");
-//            String expression = exp.substring(openBracket + 1, closeBracket);
-//            int expResult = run(expression);
-//            exp = exp.substring(0, openBracket) + expResult + exp.substring(closeBracket + 1);
-//            return run(exp);
-//        }
-
         boolean needToMulti = exp.contains(" * ");
         boolean needToSum = exp.contains(" + ") || exp.contains(" - ");
-        boolean needToSplit = exp.contains("(") || exp.contains(")");
+//        boolean needToSplit = exp.contains("(") || exp.contains(")");
         boolean needToCompound = needToSum && needToMulti;
 
-        if (needToSplit) {
-            int brackersCount = 0;
-            int splitPointIndex = -1;
-
-            for (int i = 0; i < exp.length(); i++) {
-                if (exp.charAt(i) == '(') brackersCount++;
-                else if (exp.charAt(i) == ')') brackersCount--;
-                if (brackersCount == 0) {
-                    splitPointIndex = i;
-                    break;
+        if (exp.contains("(")) { //괄호가 있다면 실행.
+            int openBracket = exp.indexOf("("); // 괄호 위치 인덱스 번호로 찾기.
+            int closeBracket = openBracket;
+            int count = 0; //괄호 개수 세기
+            for (int i = openBracket; i < exp.length(); i++) { //인덱스 길이만큼 반복하면서 괄호 찾기
+                if (exp.charAt(i) == '(') count++; //괄호 '(' 추적후 세기.
+                else if (exp.charAt(i) == ')') count--; // ')'가 시작되면 카운트 감소
+                if (count == 0) { // '(' 와 ')'의 개수가 같아야 식이 성립하기 때문에 0이될 때를 조건으로 삼음.
+                    closeBracket = i; // 반복문 반복 횟수가 괄호 마지막 인덱스이기 때문에 그 값을 closeBraket에 넣어줌.
+                    break; //브레이크
                 }
             }
-            String firstExp = exp.substring(0, splitPointIndex + 1);
-            String secondExp = exp.substring(splitPointIndex + 4);
-
-            return Calc.run(firstExp) + Calc.run(secondExp);
+            String expression = exp.substring(openBracket + 1, closeBracket); //첫괄호와 끝괄호 위치를 걷어냄.
+            int expResult = run(expression); // run메서드 전달 실행.
+            exp = exp.substring(0, openBracket) + expResult + exp.substring(closeBracket + 1);
+                    //여는 괄호 이전의 수식 + 괄호 수식 결과값 + 닫는 괄호 이후의 수식
+            return run(exp); // run메서드 전달 실행.
         }
+//        if (needToSplit) {
+//            int brackersCount = 0;
+//            int splitPointIndex = -1;
+//
+//            for (int i = 0; i < exp.length(); i++) {
+//                if (exp.charAt(i) == '(') brackersCount++;
+//                else if (exp.charAt(i) == ')') brackersCount--;
+//                if (brackersCount == 0) {
+//                    splitPointIndex = i;
+//                    break;
+//                }
+//            }
+//            String firstExp = exp.substring(0, splitPointIndex + 1);
+//            String secondExp = exp.substring(splitPointIndex + 4);
+//
+//            char operator = exp.charAt(splitPointIndex + 2);
+//
+//            exp = Calc.run(firstExp) + " " + operator + " " + Calc.run(secondExp);
+//
+//            return Calc.run(exp);
+//        }
+
 
 
         int sum = 0;
@@ -96,6 +111,30 @@ public class Calc {
     }
 
     private static String stripOuterBrackets(String exp) {
+//        while (exp.startsWith("(") && exp.endsWith(")")) {
+//            int openCount = 0;
+//            boolean canStrip = true;
+//
+//            for (int i = 0; i < exp.length(); i++) {
+//                if (exp.charAt(i) == '(') openCount++;
+//                if (exp.charAt(i) == ')') openCount--;
+//
+//
+//                if (openCount == 0 && i != exp.length() - 1) {
+//                    canStrip = false;
+//                    break;
+//                }
+//            }
+//
+//            if (canStrip) {
+//
+//                exp = exp.substring(1, exp.length() - 1).trim();
+//            } else {
+//                break;
+//            }
+//        }
+//        return exp;
+
         int outerBracketsCount = 0;
 
         while (exp.charAt(outerBracketsCount) == '(' && exp.charAt(exp.length() - 1 - outerBracketsCount) == ')') {
