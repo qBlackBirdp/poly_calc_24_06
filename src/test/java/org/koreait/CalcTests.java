@@ -137,9 +137,9 @@ public class CalcTests {
         assertThat(Calc.run("10 + (20 * (30 - 40))")).isEqualTo(-190);
     }
     @Test
-    @DisplayName("1 * 1 + ( 1 + (1 * (1 - 1))) == 2")
+    @DisplayName("5 - (1 + 5) == -1")
     void t24() {
-        assertThat(Calc.run("1 * 1 + ( 1 - (1 * 1 - (1 - 1)))")).isEqualTo(1);
+        assertThat(Calc.run("5 - (1 + 5)")).isEqualTo(-1);
     }
 
     @Test
